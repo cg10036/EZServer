@@ -83,6 +83,6 @@ const searchRoutes = async (
   }
 };
 
-export default (app: Express) => {
-  return searchRoutes(app);
+export default (app: Express, routesDir?: string) => {
+  return searchRoutes(app, routesDir);
 };
