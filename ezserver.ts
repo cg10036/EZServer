@@ -18,7 +18,6 @@ const setRoute = (
     delete?: (handlers: RequestHandler) => {};
   }
 ) => {
-  console.log({ path, data });
   Object.keys(data).forEach((e) => {
     (app as any)[e](path, (req: Request, res: Response, next: NextFunction) => {
       try {
@@ -47,7 +46,6 @@ const searchRoutes = async (
   if (!p) {
     p = "/" + p;
   }
-  console.log(p);
 
   const dirs = await fs.readdir(currDir);
   dirs.sort((a, b) => {
