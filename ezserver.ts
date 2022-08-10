@@ -49,12 +49,18 @@ const searchRoutes = async (
 
   const dirs = await fs.readdir(currDir);
   dirs.sort((a, b) => {
-    if (a[0] === ":") {
+    if (a.startsWith("__middle__") || a.startsWith("__middleware__")) {
       return -1;
+    }
+    if (b.startsWith("__middle__") || b.startsWith("__middleware__")) {
+      return 1;
+    }
+    if (a[0] === ":") {
+      return 1;
     } else if (b[0] === ":") {
       return -1;
     }
-    return 1;
+    return 0;
   });
 
   for (let i = 0; i < dirs.length; i++) {
