@@ -22,8 +22,22 @@ const setRoute = (
     (app as any)[e](path, (req: Request, res: Response, next: NextFunction) => {
       try {
         let tmp = (data as any)[e](req, res, next);
-        if (tmp && tmp.catch) {
-          tmp.catch(next);
+        if (!res.headersSent) {
+          if (tmp) {
+            Promise.resolve(tmp)
+              .then((e: any) => {
+                if (!e) {
+                  next(new Error("Nothing Sent"));
+                } else if (typeof e === "string") {
+                  res.send(e);
+                } else {
+                  res.json(e);
+                }
+              })
+              .catch(next);
+          } else {
+            next(new Error("Nothing Sent"));
+          }
         }
       } catch (err) {
         next(err);
